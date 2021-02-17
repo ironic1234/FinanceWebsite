@@ -1,0 +1,29 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment: 
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=amddata
+    ports:
+      - "5432:5432" 
+  scraper:
+    build: ./Webscraper
+    depends_on:
+      - postgres 
+  api:
+    build: ./restfulAPI
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - postgres
+  website:
+    build: ./Website
+    ports:
+      - "5000:5000"
+    environment:
+      - BACKEND_HOST=website
+    depends_on:
+      - api
+    volumes:
+      - ./Website:/usr/src/app
