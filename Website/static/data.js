@@ -21,7 +21,7 @@ async function getTextFromStream(readableStream) {
 }
 
 (async() => {
-	await fetchTest();
+	setTimeout(await fetchTest(), 5)
 })();
 
 
