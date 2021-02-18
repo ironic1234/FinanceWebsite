@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 import time
 import psycopg2
 
-time.sleep(5)
-
 conn = psycopg2.connect(
         host="postgres",
         database="amddata",

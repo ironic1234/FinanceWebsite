@@ -1,6 +1,7 @@
 version: '3'
 services:
   postgres:
+    hostname: postgres
     image: postgres:latest
     environment: 
       - POSTGRES_PASSWORD=docker
@@ -9,10 +10,11 @@ services:
       - "5432:5432" 
   scraper:
     build: ./Webscraper
+    command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; python /usr/src/app/webscraper.py'
     depends_on:
       - postgres 
   api:
-    build: ./restfulAPI
+    build: ./restfulapi
     ports: 
       - "3000:3000"
     depends_on:
@@ -27,3 +29,7 @@ services:
       - api
     volumes:
       - ./Website:/usr/src/app
+  cors-proxy:
+    build: ./cors-proxy
+    ports: 
+      - "4000:3000"

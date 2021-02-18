@@ -1,3 +1,4 @@
-FROM python:3-onbuild
+FROM python:3.8.6
 COPY . /usr/src/app
-CMD ["python", "app.py"]
+RUN pip install -r /usr/src/app/requirements.txt 
+CMD ["python", "/usr/src/app/app.py"]
