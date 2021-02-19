@@ -2,7 +2,8 @@ async function fetchTest() {
 	let response = await fetch('http://192.168.1.179:4000/http://192.168.1.179:3000/data');
 	let responseText = await getTextFromStream(response.body);
 
-	document.body.innerHTML = responseText;
+	let json = JSON.parse(responseText)
+	document.getElementById("lol").textContent = json.slice(-1)[0].price
 }
 
 async function getTextFromStream(readableStream) {
@@ -19,9 +20,4 @@ async function getTextFromStream(readableStream) {
 
 	return resultStr;
 }
-
-(async() => {
-	setTimeout(await fetchTest(), 5)
-})();
-
-
+setInterval('fetchTest()', 1000)

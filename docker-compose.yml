@@ -10,17 +10,20 @@ services:
       - "5432:5432" 
   scraper:
     build: ./Webscraper
+    image: ironic06/financewebsite_webscraper
     command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; python /usr/src/app/webscraper.py'
     depends_on:
       - postgres 
   api:
     build: ./restfulapi
+    image: ironic06/financewebsite_restfulapi
     ports: 
       - "3000:3000"
     depends_on:
       - postgres
   website:
     build: ./Website
+    image: ironic06/financewebsite_website
     ports:
       - "5000:5000"
     environment:
@@ -31,5 +34,6 @@ services:
       - ./Website:/usr/src/app
   cors-proxy:
     build: ./cors-proxy
+    image: ironic06/financewebsite_cors-proxy
     ports: 
       - "4000:3000"
